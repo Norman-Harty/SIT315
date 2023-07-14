@@ -1,16 +1,17 @@
 // Arduino 1
 //
-int sensorValue = 0;
+int pin2Value = 0;
+int pin3Value = 0;
 
 void setup()
 {
   pinMode(2, INPUT);
   pinMode(3, INPUT);
   Serial.begin(9600);
-  pinMode(13, INPUT);
   pinMode(13, OUTPUT);
   
   attachInterrupt(digitalPinToInterrupt(2),changeLED,CHANGE);
+  attachInterrupt(digitalPinToInterrupt(3),changeLED,CHANGE);
 }
 
 void loop()
@@ -19,12 +20,14 @@ void loop()
 
 void changeLED()
 {
-  sensorValue = digitalRead(2);
-  Serial.print("sensor input: ");
-  Serial.println(sensorValue);
+  pin2Value = digitalRead(2);
+  pin3Value = digitalRead(3);
+  Serial.println("sensor inputs: ");
+  Serial.println(pin2Value);
+  Serial.println(pin3Value);
   Serial.print("LED output: ");
   Serial.println(digitalRead(13));
-  if (sensorValue == HIGH) {
+  if (pin2Value == HIGH || pin3Value == HIGH) {
     digitalWrite(13, HIGH);
   } else {
     digitalWrite(13, LOW);
@@ -42,7 +45,6 @@ void setup()
 
 void loop()
 {
-  //Serial.println(analogRead(A0));
   if(analogRead(A0) >= 184) {
   	digitalWrite(2, HIGH);
   } else {
